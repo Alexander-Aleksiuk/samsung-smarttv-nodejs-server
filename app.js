@@ -1,10 +1,16 @@
-var httpServer = require('./modules/httpServer/httpServer.js');
-var fileStorage = require('./modules/fileStorage/fileStorage.js');
+var httpServer = require('./modules/httpServer.js');
+var fileStorage = require('./modules/fileStorage.js');
 
-httpServer.startServer((request, response) => {
+const config = {
+	schema: 'http',
+	port: 3000,
+	widgetsFolder: 'widgets'
+};
+
+httpServer.startServer(config, (request, response) => {
 	var output = '';
 
-	fileStorage.loadWidgets().forEach(file => {
+	fileStorage.loadWidgets(config).forEach(file => {
 		output += JSON.stringify(file);
 	});
 
