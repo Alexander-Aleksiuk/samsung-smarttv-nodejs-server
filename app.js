@@ -1,5 +1,6 @@
 var httpServer = require('./modules/httpServer.js');
 var fileStorage = require('./modules/fileStorage.js');
+var widgetListCreator = require('./modules/widgetListCreator.js');
 
 const config = {
 	schema: 'http',
@@ -8,11 +9,8 @@ const config = {
 };
 
 httpServer.startServer(config, (request, response) => {
-	var output = '';
+	var widgets = fileStorage.loadWidgets(config);
+	var widgetList = widgetListCreator.createWidgetList(widgets);
 
-	fileStorage.loadWidgets(config).forEach(file => {
-		output += JSON.stringify(file);
-	});
-
-	response.send(output);
+	response.send(widgetList);
 });
